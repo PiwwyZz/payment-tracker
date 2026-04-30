@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="bg-decoration"><div class="bg-orb bg-orb-1"></div><div class="bg-orb bg-orb-2"></div><div class="bg-orb bg-orb-3"></div></div>
+
+<!-- ========== LOGIN SCREEN ========== -->
+<div id="loginScreen" class="screen active">
+    <div class="login-container">
+        <div class="login-logo">
+            <div class="logo-circle">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <h1 class="login-title">Payment Tracker</h1>
+            <p class="login-sub">40 ฿/week · 35 Students</p>
+        </div>
+        <div class="login-roles">
+            <button class="role-card" id="loginAdmin">
+                <div class="role-icon role-icon-admin">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <span class="role-label">Admin</span>
+                <span class="role-desc">Manage payments & students</span>
+            </button>
+            <button class="role-card" id="loginStudent">
+                <div class="role-icon role-icon-student">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <span class="role-label">Student</span>
+                <span class="role-desc">View status & upload slip</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== ADMIN PIN MODAL ========== -->
+<div class="modal-overlay" id="pinModal">
+    <div class="modal modal-sm">
+        <div class="modal-header"><h2>Admin Login</h2><button class="modal-close" onclick="closeModal('pinModal')">&times;</button></div>
+        <div class="modal-body">
+            <div class="form-group"><label for="pinInput">Enter PIN</label><input type="password" id="pinInput" class="form-input" placeholder="••••" maxlength="10" autocomplete="off"></div>
+            <p class="form-hint" id="pinError" style="color:var(--red);display:none">Wrong PIN</p>
+        </div>
+        <div class="modal-footer"><button class="btn btn-primary" id="pinSubmit">Enter</button></div>
+    </div>
+</div>
+
+<!-- ========== STUDENT SELECT MODAL ========== -->
+<div class="modal-overlay" id="studentSelectModal">
+    <div class="modal">
+        <div class="modal-header"><h2>Select Your Name</h2><button class="modal-close" onclick="closeModal('studentSelectModal')">&times;</button></div>
+        <div class="modal-body">
+            <div class="form-group">
+                <input type="text" id="studentSearch" class="form-input" placeholder="Search your name...">
+            </div>
+            <div class="student-list" id="studentSelectList"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== ADMIN DASHBOARD ========== -->
+<div id="adminScreen" class="screen">
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+                <div><h1>Admin Dashboard</h1><p class="subtitle">40 ฿/week · 35 Students</p></div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" id="adminSettings" title="Settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+                <button class="btn btn-ghost pending-btn" id="showPending">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Pending <span class="badge" id="pendingCount">0</span>
+                </button>
+                <button class="btn btn-primary" id="adminAddPayment">+ Record</button>
+                <button class="btn btn-ghost" id="logoutAdmin">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card stat-students"><div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="stat-info"><span class="stat-value" id="sTotalStudents">35</span><span class="stat-label">Students</span></div></div>
+            <div class="stat-card stat-collected"><div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="stat-info"><span class="stat-value" id="sTotalCollected">฿0</span><span class="stat-label">Collected</span></div></div>
+            <div class="stat-card stat-owed"><div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="stat-info"><span class="stat-value" id="sTotalOwed">฿0</span><span class="stat-label">Total Owed</span></div></div>
+            <div class="stat-card stat-rate"><div class="stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-info"><span class="stat-value" id="sRate">0%</span><span class="stat-label">Rate</span></div></div>
+        </div>
+    </section>
+
+    <section class="week-bar">
+        <div class="week-info"><span class="week-label">Week:</span><span class="week-number" id="sWeek">0</span></div>
+        <div class="week-info"><span class="week-label">Start:</span><span class="week-date" id="sStart">May 14</span></div>
+        <div class="week-info"><span class="week-label">Expected/student:</span><span class="week-amount" id="sExpected">฿0</span></div>
+        <div class="search-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="adminSearch" placeholder="Search students..."></div>
+    </section>
+
+    <section class="filter-section">
+        <div class="filter-tabs" id="adminFilters">
+            <button class="filter-tab active" data-filter="all">All <span class="tab-count" id="cAll">35</span></button>
+            <button class="filter-tab" data-filter="owed">Owed <span class="tab-count" id="cOwed">0</span></button>
+            <button class="filter-tab" data-filter="paid">Clear <span class="tab-count" id="cPaid">0</span></button>
+            <button class="filter-tab" data-filter="overpaid">Ahead <span class="tab-count" id="cOver">0</span></button>
+        </div>
+    </section>
+
+    <section class="students-section"><div class="students-grid" id="adminGrid"></div></section>
+</div>
+
+<!-- ========== STUDENT VIEW ========== -->
+<div id="studentScreen" class="screen">
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon student-logo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                <div><h1 id="studentViewName">Student</h1><p class="subtitle" id="studentViewSub">Payment Status</p></div>
+            </div>
+            <div class="header-actions"><button class="btn btn-ghost" id="logoutStudent">Switch User</button></div>
+        </div>
+    </header>
+
+    <section class="student-hero">
+        <div class="hero-grid">
+            <div class="hero-card hero-owed"><div class="hero-label">You Owe</div><div class="hero-value" id="svOwed">฿0</div></div>
+            <div class="hero-card hero-paid"><div class="hero-label">Total Paid</div><div class="hero-value" id="svPaid">฿0</div></div>
+            <div class="hero-card hero-weeks"><div class="hero-label">Weeks</div><div class="hero-value" id="svWeeks">0/0</div></div>
+        </div>
+    </section>
+
+    <section class="upload-section">
+        <div class="upload-card">
+            <h2 class="section-title">Upload Payment Slip</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <p>Drop slip image here or <strong>click to browse</strong></p>
+                    <span class="upload-hint">Supports JPG, PNG</span>
+                </div>
+                <img id="slipPreview" class="slip-preview" style="display:none">
+                <input type="file" id="slipFile" accept="image/*" hidden>
+            </div>
+            <div class="upload-form" id="uploadForm" style="display:none">
+                <div class="form-row">
+                    <div class="form-group"><label>Amount (฿)</label><input type="number" id="slipAmount" class="form-input" value="40" min="1"></div>
+                    <div class="form-group"><label>Method</label>
+                        <select id="slipMethod" class="form-select">
+                            <option value="promptpay">PromptPay</option>
+                            <option value="kbank">KBank</option>
+                            <option value="truemoney">TrueMoney</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label>Note (optional)</label><input type="text" id="slipNote" class="form-input" placeholder="e.g. Week 1"></div>
+                <div class="upload-actions">
+                    <button class="btn btn-ghost" id="cancelSlip">Cancel</button>
+                    <button class="btn btn-primary" id="submitSlip">Submit for Review</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="student-history-section">
+        <h2 class="section-title">Payment History</h2>
+        <div id="studentHistory" class="payment-history-list"></div>
+    </section>
+</div>
+
+<!-- ========== PENDING SLIPS MODAL ========== -->
+<div class="modal-overlay" id="pendingModal">
+    <div class="modal modal-wide">
+        <div class="modal-header"><h2>Pending Slips</h2><button class="modal-close" onclick="closeModal('pendingModal')">&times;</button></div>
+        <div class="modal-body" id="pendingList"></div>
+    </div>
+</div>
+
+<!-- ========== RECORD PAYMENT MODAL (Admin) ========== -->
+<div class="modal-overlay" id="recordModal">
+    <div class="modal">
+        <div class="modal-header"><h2>Record Payment</h2><button class="modal-close" onclick="closeModal('recordModal')">&times;</button></div>
+        <div class="modal-body">
+            <div class="form-group"><label>Student</label><select id="recStudent" class="form-select"></select></div>
+            <div class="form-group"><label>Amount (฿)</label><input type="number" id="recAmount" class="form-input" value="40" min="1"></div>
+            <div class="form-group"><label>Method</label>
+                <div class="method-selector">
+                    <label class="method-option"><input type="radio" name="recMethod" value="promptpay" checked><div class="method-card method-promptpay"><div class="method-logo">PP</div><span>PromptPay</span></div></label>
+                    <label class="method-option"><input type="radio" name="recMethod" value="kbank"><div class="method-card method-kbank"><div class="method-logo">KB</div><span>KBank</span></div></label>
+                    <label class="method-option"><input type="radio" name="recMethod" value="truemoney"><div class="method-card method-truemoney"><div class="method-logo">TM</div><span>TrueMoney</span></div></label>
+                    <label class="method-option"><input type="radio" name="recMethod" value="cash"><div class="method-card method-cash"><div class="method-logo">💵</div><span>Cash</span></div></label>
+                </div>
+            </div>
+            <div class="form-group"><label>Note</label><input type="text" id="recNote" class="form-input" placeholder="optional"></div>
+        </div>
+        <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('recordModal')">Cancel</button><button class="btn btn-primary" id="recConfirm">Confirm</button></div>
+    </div>
+</div>
+
+<!-- ========== STUDENT DETAIL MODAL (Admin) ========== -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal modal-wide">
+        <div class="modal-header"><h2 id="detailName">Student</h2><button class="modal-close" onclick="closeModal('detailModal')">&times;</button></div>
+        <div class="modal-body">
+            <div class="student-detail-stats">
+                <div class="detail-stat"><span class="detail-stat-label">Paid</span><span class="detail-stat-value" id="dPaid">฿0</span></div>
+                <div class="detail-stat"><span class="detail-stat-label">Owed</span><span class="detail-stat-value detail-owed" id="dOwed">฿0</span></div>
+                <div class="detail-stat"><span class="detail-stat-label">Weeks</span><span class="detail-stat-value" id="dWeeks">0/0</span></div>
+            </div>
+            <h3 class="history-title">History</h3>
+            <div class="payment-history" id="detailHistory"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" id="detailDeleteLast">Delete Last</button>
+            <button class="btn btn-primary" id="detailPay">Record Payment</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== SETTINGS MODAL ========== -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+        <div class="modal-header"><h2>Settings</h2><button class="modal-close" onclick="closeModal('settingsModal')">&times;</button></div>
+        <div class="modal-body">
+            <div class="form-group"><label>Start Date</label><input type="date" id="setDate" class="form-input"></div>
+            <div class="form-group"><label>Weekly Amount (฿)</label><input type="number" id="setAmount" class="form-input" value="40" min="1"></div>
+            <div class="form-group"><label>Admin PIN</label><input type="text" id="setPin" class="form-input" placeholder="Enter new PIN"></div>
+            <hr class="settings-divider">
+            <div class="form-group"><label>Data</label>
+                <div class="data-actions">
+                    <button class="btn btn-ghost" id="exportBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</button>
+                    <button class="btn btn-ghost" id="importBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Import</button>
+                    <button class="btn btn-danger" id="resetBtn">Reset All</button>
+                </div>
+            </div>
+            <input type="file" id="importFile" accept=".json" hidden>
+        </div>
+        <div class="modal-footer"><button class="btn btn-primary" id="saveSettings">Save</button></div>
+    </div>
+</div>
+
+<!-- ========== SLIP VIEWER MODAL ========== -->
+<div class="modal-overlay" id="slipViewModal">
+    <div class="modal modal-wide">
+        <div class="modal-header"><h2>Slip Image</h2><button class="modal-close" onclick="closeModal('slipViewModal')">&times;</button></div>
+        <div class="modal-body" style="text-align:center"><img id="slipViewImg" class="slip-view-img"></div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <p>Loading data...</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
