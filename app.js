@@ -1,12 +1,19 @@
 // ===== Supabase Payment Tracker =====
 const TOTAL = 35;
-let S = { start_date: '2026-05-14', weekly_amount: 40, pin: '11223344' };
+let S = { start_date: '2026-05-14', weekly_amount: 40, pin_hash: '' };
 let students = []; // [{id, name, payments:[]}]
 let pendingList = [];
 let currentFilter = 'all';
 let activeStudentId = null;
 let detailStudentId = null;
 let slipFileRef = null;
+
+// ===== SHA-256 Hash (so PIN is never stored as plain text) =====
+async function hashPin(pin) {
+    const data = new TextEncoder().encode(pin);
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 // ===== Helpers =====
 const weeksElapsed = () => { const d = new Date() - new Date(S.start_date); return d < 0 ? 0 : Math.floor(d / 604800000) + 1; };
@@ -325,9 +332,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('loginAdmin').addEventListener('click', () => openModal('pinModal'));
     document.getElementById('loginStudent').addEventListener('click', () => { renderStudentList(''); openModal('studentSelectModal'); });
 
-    // PIN
-    const checkPin = () => {
-        if (document.getElementById('pinInput').value === S.pin) {
+    // PIN (compared as hash — plain PIN never stored)
+    const checkPin = async () => {
+        const inputHash = await hashPin(document.getElementById('pinInput').value);
+        if (inputHash === S.pin_hash) {
             closeModal('pinModal'); document.getElementById('pinInput').value = '';
             document.getElementById('pinError').style.display = 'none';
             showScreen('adminScreen'); refreshAdmin();
@@ -415,15 +423,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('adminSettings').addEventListener('click', () => {
         document.getElementById('setDate').value = S.start_date;
         document.getElementById('setAmount').value = S.weekly_amount;
-        document.getElementById('setPin').value = S.pin;
+        document.getElementById('setPin').value = ''; // never show the PIN
+        document.getElementById('setPin').placeholder = 'Enter new PIN (leave blank to keep current)';
         openModal('settingsModal');
     });
     document.getElementById('saveSettings').addEventListener('click', async () => {
         const d = document.getElementById('setDate').value;
         const a = parseInt(document.getElementById('setAmount').value);
         const p = document.getElementById('setPin').value.trim();
-        if (!d || !a || a <= 0 || !p) { toast('Fill all fields', 'error'); return; }
-        S.start_date = d; S.weekly_amount = a; S.pin = p;
+        if (!d || !a || a <= 0) { toast('Fill all fields', 'error'); return; }
+        S.start_date = d; S.weekly_amount = a;
+        if (p) S.pin_hash = await hashPin(p); // only update PIN if changed
         await saveSettings();
         closeModal('settingsModal'); refreshAdmin();
         toast('Settings saved');
@@ -468,7 +478,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             await supa.from('payments').delete().neq('id', 0);
             await supa.from('pending').delete().neq('id', 0);
             for (let i = 1; i <= TOTAL; i++) await supa.from('students').update({ name: `Student ${i}` }).eq('id', i);
-            S = { id: 1, start_date: '2026-05-14', weekly_amount: 40, pin: '11223344' };
+            S = { id: 1, start_date: '2026-05-14', weekly_amount: 40, pin_hash: await hashPin('11223344') };
             await saveSettings();
             await loadStudents(); pendingList = [];
             closeModal('settingsModal'); refreshAdmin();
