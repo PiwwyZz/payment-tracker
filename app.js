@@ -149,6 +149,43 @@ async function openDetail(id) {
     openModal('detailModal');
 }
 
+async function submitExpense() {
+  const studentId = document.getElementById('studentIdInput').value; 
+  const amount = document.getElementById('expAmount').value;
+  const desc = document.getElementById('expDesc').value;
+
+  // --- เพิ่มจุดเช็คข้อมูลว่าง ---
+  if (!studentId || !amount || !desc) {
+    return alert("กรอกเลขที่ ยอดเงิน และเหตุผลให้ครบก่อนนะ!");
+  }
+
+  const { data, error } = await supabase
+    .from('expenses')
+    .insert([
+      { 
+        student_id: parseInt(studentId), 
+        amount: parseInt(amount), 
+        description: desc,
+        status: 'Pending' 
+      }
+    ]);
+
+  if (error) {
+    console.error('Error:', error);
+    alert('เกิดข้อผิดพลาด: ' + error.message);
+  } else {
+    alert('ส่งรายการเบิกเรียบร้อย!');
+    
+    // --- เพิ่มการล้างข้อมูลหลังส่งเสร็จ ---
+    document.getElementById('studentIdInput').value = '';
+    document.getElementById('expAmount').value = '';
+    document.getElementById('expDesc').value = '';
+    
+    // ถ้าอยากให้หน้าเว็บอัปเดตข้อมูลใหม่ทันที
+    if (typeof loadData === "function") loadData(); 
+  }
+}
+
 // --- Student Logic ---
 function renderStudentList(q = '') {
     const list = document.getElementById('studentSelectList');
