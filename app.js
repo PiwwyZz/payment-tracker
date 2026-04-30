@@ -225,17 +225,28 @@ function setupUpload() {
     document.getElementById('submitSlip').onclick = async () => {
         const btn = document.getElementById('submitSlip');
         btn.textContent = 'Uploading...'; btn.disabled = true;
-        const fileName = `${Date.now()}.jpg`;
-        await supa.storage.from('slips').upload(fileName, slipFileRef);
-        const { data } = supa.storage.from('slips').getPublicUrl(fileName);
-        await supa.from('pending').insert({
-            student_id: activeStudentId,
-            amount: parseInt(document.getElementById('slipAmount').value),
-            method: document.getElementById('slipMethod').value,
-            note: document.getElementById('slipNote').value,
-            slip_url: data.publicUrl
-        });
-        location.reload();
+        try {
+            const fileName = `${Date.now()}_${activeStudentId}.jpg`;
+            await supa.storage.from('slips').upload(fileName, slipFileRef);
+            const { data } = supa.storage.from('slips').getPublicUrl(fileName);
+            await supa.from('pending').insert({
+                student_id: activeStudentId,
+                amount: parseInt(document.getElementById('slipAmount').value),
+                method: document.getElementById('slipMethod').value,
+                note: document.getElementById('slipNote').value,
+                slip_url: data.publicUrl
+            });
+            slipFileRef = null;
+            document.getElementById('slipPreview').style.display = 'none';
+            document.getElementById('uploadPlaceholder').style.display = 'block';
+            document.getElementById('uploadForm').style.display = 'none';
+            await loadPending(); renderStudentView();
+            toast('Slip Uploaded');
+        } catch (e) {
+            toast('Upload Failed', 'error');
+        } finally {
+            btn.textContent = 'Submit Verification'; btn.disabled = false;
+        }
     };
 }
 
@@ -277,7 +288,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             method: document.querySelector('input[name="recMethod"]:checked').value,
             note: document.getElementById('recNote').value
         });
-        location.reload();
+        await loadStudents(); refreshAdmin(); closeModal('recordModal');
+        toast('Record Created');
     };
 
     setupUpload();
