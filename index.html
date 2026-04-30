@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,25 +16,25 @@
 <!-- ========== LOGIN SCREEN ========== -->
 <main id="loginScreen" class="screen active">
   <div style="max-width:400px;margin:15vh auto;text-align:center;padding:0 24px">
-    <div class="brand-box" style="margin: 0 auto 32px; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; color: #000;">
+    <div class="brand-box" style="margin: 0 auto 32px; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; color: #fff; background: var(--primary); border-radius: 16px;">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
     </div>
-    <h1 style="font-size:36px;font-weight:800;margin-bottom:8px;letter-spacing:-1px">Tracker</h1>
-    <p style="color:var(--text-dim);margin-bottom:48px;font-size:16px">5/1 yothinburana</p>
+    <h1 style="font-size:42px;font-weight:800;margin-bottom:8px;letter-spacing:-0.03em;color:#fff">Tracker</h1>
+    <p style="color:var(--text-dim);margin-bottom:48px;font-size:18px">5/1 yothinburana</p>
     
     <div style="display:flex;flex-direction:column;gap:16px">
-      <button class="item-card" id="loginAdmin" style="text-align:left;display:flex;align-items:center;gap:20px;width:100%">
-        <div style="width:48px;height:48px;background:rgba(255,255,255,0.05);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      <button class="item-card" id="loginAdmin" style="text-align:left;display:flex;align-items:center;gap:20px;width:100%;background:var(--surface)">
+        <div style="width:52px;height:52px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
         </div>
-        <div><span style="display:block;font-weight:700;font-size:17px">Administrator</span><span style="font-size:13px;color:var(--text-dim)">Manage and verify records</span></div>
+        <div><span style="display:block;font-weight:700;font-size:18px;color:var(--text)">Administrator</span><span style="font-size:14px;color:var(--text-dim)">Manage and verify records</span></div>
       </button>
       
-      <button class="item-card" id="loginStudent" style="text-align:left;display:flex;align-items:center;gap:20px;width:100%">
-        <div style="width:48px;height:48px;background:rgba(255,255,255,0.05);border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <button class="item-card" id="loginStudent" style="text-align:left;display:flex;align-items:center;gap:20px;width:100%;background:var(--surface)">
+        <div style="width:52px;height:52px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <div><span style="display:block;font-weight:700;font-size:17px">Student Access</span><span style="font-size:13px;color:var(--text-dim)">View status & upload slips</span></div>
+        <div><span style="display:block;font-weight:700;font-size:18px;color:var(--text)">Student Access</span><span style="font-size:14px;color:var(--text-dim)">View status & upload slips</span></div>
       </button>
     </div>
   </div>
