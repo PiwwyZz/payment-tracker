@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,56 +13,52 @@
 
 <div class="aurora-bg"></div>
 
+<!-- ============ LOGIN ============ -->
 <main id="loginScreen" class="screen active">
-  <div style="max-width:400px;margin:15vh auto;text-align:center;padding:0 24px">
-    <div class="brand-box" style="margin: 0 auto 32px; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; color: #fff; background: var(--primary); border-radius: 16px;">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+  <div class="login-wrap">
+    <div class="login-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </div>
-    <h1 style="font-size:42px;font-weight:800;margin-bottom:8px;letter-spacing:-0.03em;color:#fff">Tracker</h1>
-    <p style="color:var(--text-dim);margin-bottom:48px;font-size:18px">5/1 yothinburana</p>
-    
-    <div style="display:flex;flex-direction:column;gap:16px">
-      <button class="item-card" id="loginAdmin" style="text-align:left;display:flex;align-items:center;gap:20px;width:100%;background:var(--surface)">
-        <div style="width:52px;height:52px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        </div>
-        <div><span style="display:block;font-weight:700;font-size:18px;color:var(--text)">Administrator</span><span style="font-size:14px;color:var(--text-dim)">Manage and verify records</span></div>
-      </button>
-      
-      <button class="item-card" id="loginStudent" style="text-align:left;display:flex;align-items:center;gap:20px;width:100%;background:var(--surface)">
-        <div style="width:52px;height:52px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border)">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div><span style="display:block;font-weight:700;font-size:18px;color:var(--text)">Student Access</span><span style="font-size:14px;color:var(--text-dim)">View status & upload slips</span></div>
-      </button>
-    </div>
+    <h1 class="login-title">Tracker</h1>
+    <p class="login-sub">5/1 yothinburana — เลือกชื่อของคุณ</p>
+    <input type="text" id="studentSearch" class="search-input mb-md" placeholder="พิมพ์ชื่อ หรือ เลขที่...">
+    <div id="studentSelectList" class="pick-list scroll-y"></div>
   </div>
 </main>
 
+<!-- ============ ADMIN ============ -->
 <main id="adminScreen" class="screen">
   <header class="header">
     <div class="container header-flex">
-      <div class="brand"><div class="brand-box"></div>Studio / Admin</div>
-      <div style="display:flex;gap:12px">
-        <button class="btn btn-s" id="showPending">ตรวจสลิป <span class="badge" id="pendingCount" style="margin-left:4px;background:var(--primary);color:#000">0</span></button>
-        <button class="btn btn-s" id="showWithdrawalsAdmin">จัดการเบิกเงิน <span class="badge" id="pendingWithdrawCount" style="margin-left:4px;background:var(--warning);color:#000;display:none">0</span></button>
+      <div class="brand"><div class="brand-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 17l6-6 4 4 8-8"/><polyline points="14 7 21 7 21 14"/></svg></div>Studio / Admin</div>
+      <div class="row-gap">
+        <button class="btn btn-s" id="showPending">ตรวจสลิป <span class="badge badge-warn" id="pendingCount">0</span></button>
+        <button class="btn btn-s" id="showWithdrawalsAdmin">เบิกเงิน <span class="badge badge-warn" id="pendingWithdrawCount" style="display:none">0</span></button>
         <button class="btn btn-p" id="adminAddPayment">+ ลงยอด</button>
-        <button class="btn btn-s" id="adminSettingsBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+        <button class="btn btn-s" id="adminSettingsBtn" aria-label="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
         <button class="btn btn-s" id="logoutAdmin">Exit</button>
       </div>
     </div>
   </header>
 
   <div class="container">
+    <div class="role-switch" id="roleTabsAdmin" style="display:none">
+      <nav class="tabs role-tabs">
+        <button class="tab active" data-role="admin" onclick="setRole('admin')">Admin</button>
+        <button class="tab" data-role="student" onclick="setRole('student')">student</button>
+      </nav>
+    </div>
     <section class="stats-grid">
-      <div class="stat-card"><span class="stat-label">Net Balance (ยอดคงเหลือ)</span><div class="stat-value" id="sNetBalance" style="color:var(--success)">฿0</div></div>
-      <div class="stat-card"><span class="stat-label">Term Collected (ยอดเก็บเทอมนี้)</span><div class="stat-value" id="sTotalCollected">฿0</div></div>
-      <div class="stat-card"><span class="stat-label">Withdrawn (ยอดเบิกสำเร็จแล้ว)</span><div class="stat-value" id="sTotalWithdrawn" style="color:var(--warning)">฿0</div></div>
-      <div class="stat-card"><span class="stat-label">Outstanding (ค้างจ่ายรวม)</span><div class="stat-value" id="sTotalOwed" style="color:var(--error)">฿0</div></div>
+      <div class="stat-card"><span class="stat-label">Net Balance</span><div class="stat-value text-success" id="sNetBalance">฿0</div></div>
+      <div class="stat-card"><span class="stat-label">Term Collected</span><div class="stat-value" id="sTotalCollected">฿0</div></div>
+      <div class="stat-card"><span class="stat-label">Withdrawn</span><div class="stat-value text-warning" id="sTotalWithdrawn">฿0</div></div>
+      <div class="stat-card"><span class="stat-label">Outstanding</span><div class="stat-value text-error" id="sTotalOwed">฿0</div></div>
     </section>
 
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:16px">
-      <input type="text" id="adminSearch" class="search-input" placeholder="Search by name or #ID..." style="flex:1">
+    <div class="row mb-lg" style="gap:16px">
+      <input type="text" id="adminSearch" class="search-input flex-1" placeholder="Search by name or #ID...">
       <nav class="tabs" id="adminFilters">
         <button class="tab active" data-filter="all">All</button>
         <button class="tab" data-filter="owed">Owed</button>
@@ -74,11 +70,12 @@
   </div>
 </main>
 
+<!-- ============ STUDENT ============ -->
 <main id="studentScreen" class="screen">
   <header class="header">
     <div class="container header-flex">
       <div class="brand" id="studentViewName">Dashboard</div>
-      <div style="display:flex;gap:12px">
+      <div class="row-gap">
         <button class="btn btn-p" id="studentWithdrawBtn">ขอเบิกเงิน</button>
         <button class="btn btn-s" id="logoutStudent">Log Out</button>
       </div>
@@ -86,27 +83,68 @@
   </header>
 
   <div class="container">
+    <div class="role-switch" id="roleTabsStudent" style="display:none">
+      <nav class="tabs role-tabs">
+        <button class="tab" data-role="admin" onclick="setRole('admin')">Admin</button>
+        <button class="tab active" data-role="student" onclick="setRole('student')">ของฉัน</button>
+      </nav>
+    </div>
     <section class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div class="stat-card"><span class="stat-label">Unpaid</span><div class="stat-value" id="svOwed" style="color:var(--error)">฿0</div></div>
+      <div class="stat-card"><span class="stat-label">Unpaid</span><div class="stat-value text-error" id="svOwed">฿0</div></div>
       <div class="stat-card"><span class="stat-label">Total Paid</span><div class="stat-value" id="svPaid">฿0</div></div>
-      <div class="stat-card"><span class="stat-label">Weeks</span><div class="stat-value" id="svWeeks">0/0</div></div>
+      <div class="stat-card"><span class="stat-label">Weeks</span><div class="stat-value" id="svWeeks">0/0</div><div class="progress"><div class="progress-bar" id="svProgress" style="width:0%"></div></div></div>
     </section>
 
-    <article class="item-card" style="margin-bottom:32px;cursor:default">
-      <h2 style="font-size:20px;margin-bottom:24px;font-weight:800">Submit Payment (จ่ายเงินห้อง)</h2>
-      <div id="uploadArea" style="border:2px dashed var(--border);border-radius:16px;padding:60px;text-align:center;cursor:pointer;transition:all 0.3s">
+    <article class="receiver-card mb-lg">
+      <div class="receiver-grid">
+        <div class="receiver-qr-wrap" id="receiverQrWrap" onclick="expandQr()">
+          <img id="receiverQr" class="receiver-qr" alt="">
+          <div id="receiverQrEmpty" class="receiver-qr-empty">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg>
+            <span>ยังไม่ตั้ง QR</span>
+          </div>
+          <div class="receiver-qr-overlay"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+        </div>
+        <div class="receiver-info">
+          <span class="receiver-eyebrow">โอนเงินไปที่</span>
+          <div class="receiver-label" id="receiverLabel">—</div>
+          <button class="receiver-number" id="receiverNumber" onclick="copyReceiver()">
+            <span id="receiverNumberText">—</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="receiver-actions" id="receiverActions">
+        <button class="qr-action" onclick="expandQr()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          เต็มจอ
+        </button>
+        <button class="qr-action" onclick="downloadQr()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          บันทึกรูป
+        </button>
+        <button class="qr-action qr-action-primary" onclick="copyReceiver()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          คัดลอกเลข
+        </button>
+      </div>
+    </article>
+
+    <article class="item-card mb-xl" style="cursor:default">
+      <h2 class="mb-lg" style="font-size:18px">อัปโหลดสลิป</h2>
+      <div id="uploadArea" class="upload-area">
         <div id="uploadPlaceholder">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom:16px;opacity:0.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <p style="color:var(--text-dim);font-size:15px;font-weight:600">Drop slip image or click to browse</p>
+          <p class="text-dim text-semi">Drop slip image or click to browse</p>
         </div>
-        <img id="slipPreview" style="display:none;max-width:100%;max-height:400px;margin:0 auto;border-radius:12px;box-shadow: 0 20px 40px rgba(0,0,0,0.5)">
+        <img id="slipPreview" style="display:none">
         <input type="file" id="slipFile" accept="image/*" hidden>
       </div>
 
-      <div id="uploadForm" style="display:none;margin-top:24px;animation: fadeIn 0.4s ease;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;margin-bottom:24px">
-          <div class="field"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Amount (฿)</label><input type="number" id="slipAmount" class="input" value="40"></div>
-          <div class="field"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Method</label>
+      <div id="uploadForm" style="display:none" class="mt-lg">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px" class="mb-lg">
+          <div class="field"><label class="label-mini">Amount (฿)</label><input type="number" id="slipAmount" class="input" value="40"></div>
+          <div class="field"><label class="label-mini">Method</label>
             <select id="slipMethod" class="input">
               <option value="promptpay">PromptPay</option>
               <option value="kbank">KBank</option>
@@ -114,159 +152,204 @@
             </select>
           </div>
         </div>
-        <div class="field" style="margin-bottom:24px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Note</label><input type="text" id="slipNote" class="input" placeholder="Optional memo..."></div>
-        <div style="display:flex;gap:12px">
-          <button class="btn btn-s" id="cancelSlip" style="flex:1">Cancel</button>
-          <button class="btn btn-p" id="submitSlip" style="flex:2">Submit for Verification</button>
+        <div class="field mb-lg"><label class="label-mini">Note</label><input type="text" id="slipNote" class="input" placeholder="Optional memo..."></div>
+        <div class="btn-row">
+          <button class="btn btn-s flex-1" id="cancelSlip">Cancel</button>
+          <button class="btn btn-p" style="flex:2" id="submitSlip">Submit for Verification</button>
         </div>
       </div>
     </article>
 
-    <h2 style="font-size:16px;margin-bottom:16px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px">Transaction History</h2>
+    <h2 class="label-mini" style="font-size:13px;margin-bottom:14px">Transaction History</h2>
     <div id="studentHistory"></div>
   </div>
 </main>
 
-<div class="modal-bg" id="pinModal">
-  <div class="modal">
-    <div class="modal-h"><h2>Administrator Login</h2><button onclick="closeModal('pinModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
-    <div class="modal-b"><div class="field"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Security PIN</label><input type="password" id="pinInput" class="input" placeholder="••••" style="font-size:24px;letter-spacing:8px;text-align:center"></div><p id="pinError" style="color:var(--error);display:none;font-size:13px;margin-top:12px;text-align:center;font-weight:600">Access Denied: Invalid PIN</p></div>
-    <div class="modal-f"><button class="btn btn-p" style="width:100%" id="pinSubmit">Unlock Dashboard</button></div>
-  </div>
-</div>
-
-<div class="modal-bg" id="studentSelectModal">
-  <div class="modal">
-    <div class="modal-h"><h2>Select Your Name</h2><button onclick="closeModal('studentSelectModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
+<!-- ============ MODALS ============ -->
+<div class="modal-bg" id="pinModal" style="z-index:1100">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-h"><h2>Admin PIN</h2><button class="btn-ghost" onclick="closeModal('pinModal')">&times;</button></div>
     <div class="modal-b">
-      <input type="text" id="studentSearch" class="search-input" placeholder="Type your name..." style="margin-bottom:20px">
-      <div id="studentSelectList" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
+      <input type="password" id="pinInput" class="input" inputmode="numeric" placeholder="••••" style="font-size:22px;letter-spacing:8px;text-align:center" autocomplete="off">
+      <p id="pinError" class="text-error text-sm text-semi text-center mt-md" style="display:none">PIN ไม่ถูกต้อง</p>
     </div>
+    <div class="modal-f"><button class="btn btn-p full" id="pinSubmit">Unlock</button></div>
   </div>
 </div>
 
 <div class="modal-bg" id="recordModal">
   <div class="modal">
-    <div class="modal-h"><h2>Manual Entry</h2><button onclick="closeModal('recordModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
+    <div class="modal-h"><h2>Manual Entry</h2><button class="btn-ghost" onclick="closeModal('recordModal')">&times;</button></div>
     <div class="modal-b">
-      <div class="field" style="margin-bottom:20px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Student</label><select id="recStudent" class="input"></select></div>
-      <div class="field" style="margin-bottom:20px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Amount (฿)</label><input type="number" id="recAmount" class="input" value="40"></div>
-      <div class="field" style="margin-bottom:20px">
-        <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Method</label>
+      <div class="field"><label class="label-mini">Student</label><select id="recStudent" class="input"></select></div>
+      <div class="field"><label class="label-mini">Amount (฿)</label><input type="number" id="recAmount" class="input" value="40"></div>
+      <div class="field">
+        <label class="label-mini">Method</label>
         <div class="method-grid">
           <label class="method-option"><input type="radio" name="recMethod" value="promptpay" checked hidden><div class="method-card">PromptPay</div></label>
           <label class="method-option"><input type="radio" name="recMethod" value="kbank" hidden><div class="method-card">KBank</div></label>
           <label class="method-option"><input type="radio" name="recMethod" value="truemoney" hidden><div class="method-card">TrueMoney</div></label>
         </div>
       </div>
-      <div class="field"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Memo</label><input type="text" id="recNote" class="input"></div>
+      <div class="field"><label class="label-mini">Memo</label><input type="text" id="recNote" class="input"></div>
     </div>
-    <div class="modal-f"><button class="btn btn-p" style="width:100%" id="recConfirm">Save Record</button></div>
+    <div class="modal-f"><button class="btn btn-p full" id="recConfirm">Save Record</button></div>
   </div>
 </div>
 
 <div class="modal-bg" id="detailModal">
   <div class="modal">
-    <div class="modal-h"><h2 id="detailName">Details</h2><button onclick="closeModal('detailModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
-    <div class="modal-b" id="detailHistory" style="max-height:400px;overflow-y:auto"></div>
+    <div class="modal-h"><h2 id="detailName">Details</h2><button class="btn-ghost" onclick="closeModal('detailModal')">&times;</button></div>
+    <div class="modal-b" id="detailHistory"></div>
+    <div id="detailAdminPanel" style="display:none;padding:0 26px 16px">
+      <button class="btn full" id="detailAdminToggle">Make Admin</button>
+    </div>
     <div class="modal-f">
-      <button class="btn btn-danger" id="detailDeleteLast" style="flex:1">Void Last</button>
-      <button class="btn btn-p" id="detailPay" style="flex:1">Add Payment</button>
+      <button class="btn btn-danger flex-1" id="detailDeleteLast">Void Last</button>
+      <button class="btn btn-p flex-1" id="detailPay">Add Payment</button>
     </div>
   </div>
 </div>
 
 <div class="modal-bg" id="pendingModal">
   <div class="modal">
-    <div class="modal-h"><h2>Review Pending Slips</h2><button onclick="closeModal('pendingModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
-    <div class="modal-b" id="pendingList" style="max-height:500px;overflow-y:auto"></div>
+    <div class="modal-h"><h2>Review Pending Slips</h2><button class="btn-ghost" onclick="closeModal('pendingModal')">&times;</button></div>
+    <div class="modal-b" id="pendingList"></div>
   </div>
 </div>
 
 <div class="modal-bg" id="studentWithdrawModal">
-  <div class="modal" style="max-height: 90vh; overflow-y: auto;">
-    <div class="modal-h">
-      <h2>ระบบขอเบิกเงิน (นักเรียน)</h2>
-      <button onclick="closeModal('studentWithdrawModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button>
-    </div>
+  <div class="modal">
+    <div class="modal-h"><h2>ระบบขอเบิกเงิน</h2><button class="btn-ghost" onclick="closeModal('studentWithdrawModal')">&times;</button></div>
     <div class="modal-b">
-      <div class="field" style="margin-bottom:16px">
-        <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">จำนวนเงินที่ต้องการเบิก (฿)</label>
-        <input type="number" id="swAmount" class="input">
+      <div class="field"><label class="label-mini">จำนวนเงินที่ต้องการเบิก (฿)</label><input type="number" id="swAmount" class="input"></div>
+      <div class="field"><label class="label-mini">รายละเอียด / เหตุผล</label><input type="text" id="swReason" class="input"></div>
+      <div class="field"><label class="label-mini">รูป QR Code พร้อมเพย์</label><input type="file" id="swQrFile" class="input" accept="image/*">
+        <p class="text-sm text-dim mt-md">*Admin จะสแกนจ่ายผ่าน QR Code นี้</p>
       </div>
-      <div class="field" style="margin-bottom:16px">
-        <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">รายละเอียด / เหตุผลที่ขอเบิก</label>
-        <input type="text" id="swReason" class="input">
-      </div>
-      <div class="field" style="margin-bottom:24px">
-        <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">อัปโหลดรูป QR Code พร้อมเพย์ของคุณ</label>
-        <input type="file" id="swQrFile" class="input" accept="image/*">
-        <p style="font-size:12px; color:var(--text-dim); margin-top:8px;">*Admin จะสแกนจ่ายผ่าน QR Code นี้ กรุณาตรวจสอบให้ถูกต้อง</p>
-      </div>
-      <button class="btn btn-p" style="width:100%" id="submitStudentWithdrawBtn">ส่งคำร้องขอเบิกเงิน</button>
-      
-      <div style="margin-top:32px; border-top:1px solid var(--border); padding-top:24px;">
-         <h3 style="font-size:16px; margin-bottom:16px;">ประวัติคำขอเบิกเงินของคุณ</h3>
-         <div id="studentWithdrawHistory"></div>
+      <button class="btn btn-p full mt-md" id="submitStudentWithdrawBtn">ส่งคำร้องขอเบิกเงิน</button>
+
+      <div class="divider-top">
+        <h3 class="mb-md" style="font-size:16px">ประวัติคำขอของคุณ</h3>
+        <div id="studentWithdrawHistory"></div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="modal-bg" id="adminWithdrawModal">
-  <div class="modal" style="max-height: 90vh; overflow-y: auto; max-width:600px;">
-    <div class="modal-h">
-      <h2>จัดการคำขอเบิกเงิน (Admin)</h2>
-      <button onclick="closeModal('adminWithdrawModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button>
-    </div>
+  <div class="modal" style="max-width:600px">
+    <div class="modal-h"><h2>จัดการคำขอเบิกเงิน</h2><button class="btn-ghost" onclick="closeModal('adminWithdrawModal')">&times;</button></div>
     <div class="modal-b">
-        <h3 style="font-size:14px; text-transform:uppercase; color:var(--warning); margin-bottom:12px;">รอดำเนินการโอน (Pending)</h3>
-        <div id="adminPendingWithdrawList" style="margin-bottom:32px;"></div>
-
-        <h3 style="font-size:14px; text-transform:uppercase; color:var(--success); margin-bottom:12px; border-top:1px solid var(--border); padding-top:20px;">โอนสำเร็จแล้ว (Approved History)</h3>
-        <div id="adminApprovedWithdrawList"></div>
+      <h3 class="label-mini text-warning mb-md">รอดำเนินการ (Pending)</h3>
+      <div id="adminPendingWithdrawList" class="mb-xl"></div>
+      <h3 class="label-mini text-success divider-top mb-md">โอนสำเร็จแล้ว (Approved)</h3>
+      <div id="adminApprovedWithdrawList"></div>
     </div>
   </div>
 </div>
 
-<div class="modal-bg" id="approveWithdrawModal" style="z-index:9999;">
+<div class="modal-bg" id="approveWithdrawModal" style="z-index:9999">
   <div class="modal">
-    <div class="modal-h">
-      <h2>ยืนยันการโอนเงิน</h2>
-      <button onclick="closeModal('approveWithdrawModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button>
-    </div>
+    <div class="modal-h"><h2>ยืนยันการโอนเงิน</h2><button class="btn-ghost" onclick="closeModal('approveWithdrawModal')">&times;</button></div>
     <div class="modal-b">
-        <p style="margin-bottom:16px; color:var(--text-dim); font-size:14px;">กรุณาแนบสลิปการโอนเงินเพื่อยืนยันว่าทำการโอนให้เพื่อนเรียบร้อยแล้ว</p>
-        <input type="hidden" id="approveWithdrawId">
-        <div class="field" style="margin-bottom:24px">
-            <input type="file" id="adminTransferSlipFile" class="input" accept="image/*">
-        </div>
-        <button class="btn btn-p" style="width:100%" id="confirmApproveWithdrawBtn">อัปโหลดสลิป & อนุมัติ</button>
+      <p class="text-dim text-md mb-md">กรุณาแนบสลิปการโอนเงินเพื่อยืนยัน</p>
+      <input type="hidden" id="approveWithdrawId">
+      <div class="field"><input type="file" id="adminTransferSlipFile" class="input" accept="image/*"></div>
+      <button class="btn btn-p full" id="confirmApproveWithdrawBtn">อัปโหลดสลิป & อนุมัติ</button>
     </div>
   </div>
 </div>
 
 <div class="modal-bg" id="settingsModal">
   <div class="modal">
-    <div class="modal-h"><h2>System Settings</h2><button onclick="closeModal('settingsModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
+    <div class="modal-h"><h2>System Settings</h2><button class="btn-ghost" onclick="closeModal('settingsModal')">&times;</button></div>
     <div class="modal-b">
-      <div class="field" style="margin-bottom:20px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Start Date</label><input type="date" id="setStartDate" class="input"></div>
-      <div class="field" style="margin-bottom:20px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Weekly Amount (฿)</label><input type="number" id="setWeeklyAmount" class="input"></div>
-      <div class="field" style="margin-bottom:20px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Previous Semester Balance (฿)</label><input type="number" id="setPrevBalance" class="input"></div>
-      <div class="field" style="margin-bottom:20px"><label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase">Admin PIN</label><input type="password" id="setPin" class="input" placeholder="Keep empty to leave unchanged"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <button class="btn btn-s" id="exportData" style="font-size:12px">Export Data</button>
-        <button class="btn btn-s" id="importData" style="font-size:12px">Import Data</button>
+      <div class="field"><label class="label-mini">Start Date</label><input type="date" id="setStartDate" class="input"></div>
+      <div class="field"><label class="label-mini">Weekly Amount (฿)</label><input type="number" id="setWeeklyAmount" class="input"></div>
+      <div class="field"><label class="label-mini">Previous Semester Balance (฿)</label><input type="number" id="setPrevBalance" class="input"></div>
+
+      <div class="divider-top">
+        <label class="label-mini">ผู้รับเงิน (Receiver)</label>
+        <div class="field"><input type="text" id="setReceiverLabel" class="input" placeholder="ชื่อบัญชี / ชื่อเล่น"></div>
+        <div class="field"><input type="text" id="setReceiverNumber" class="input" placeholder="เบอร์พร้อมเพย์ / เลขบัญชี"></div>
+        <div class="field"><label class="text-sm text-dim mb-sm">QR Code (ไม่บังคับ — เว้นว่างเพื่อคงรูปเดิม)</label><input type="file" id="setReceiverQrFile" class="input" accept="image/*"></div>
+      </div>
+
+      <div class="field"><label class="label-mini">Admin PIN</label><input type="password" id="setPin" class="input" inputmode="numeric" placeholder="Leave blank to keep current"></div>
+      <div class="row mb-md">
+        <span class="text-sm text-dim">Forget this device's trust</span>
+        <button class="btn btn-s" id="forgetTrust">Reset Trust</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-s flex-1" id="exportData">Export Data</button>
+        <button class="btn btn-s flex-1" id="importData">Import Data</button>
       </div>
     </div>
-    <div class="modal-f"><button class="btn btn-p" style="width:100%" id="setSave">Save Configuration</button></div>
+    <div class="modal-f"><button class="btn btn-p full" id="setSave">Save Configuration</button></div>
   </div>
 </div>
 
-<div class="modal-bg" id="slipViewModal" style="z-index:9999;">
+<div class="modal-bg" id="receiptModal" style="z-index:9998">
+  <div class="modal receipt-shell">
+    <div class="receipt" id="receiptBody">
+      <div class="receipt-stamp" id="rcStamp">PAID</div>
+      <div class="receipt-brand-row">
+        <div class="receipt-brand-mark"></div>
+        <span>TRACKER</span>
+      </div>
+      <div class="receipt-title">RECEIPT</div>
+      <div class="receipt-subtitle">5/1 yothinburana</div>
+
+      <div class="receipt-rows">
+        <div class="receipt-row"><span>No.</span><span class="receipt-mono" id="rcNo">#00000</span></div>
+        <div class="receipt-row"><span>Date</span><span class="receipt-mono" id="rcDate">—</span></div>
+        <div class="receipt-row"><span>To</span><span id="rcStudent">—</span></div>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-line">
+        <span class="receipt-reason" id="rcReason">—</span>
+        <span class="receipt-mono" id="rcAmount">฿0</span>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-total">
+        <span class="receipt-eyebrow">TOTAL PAID</span>
+        <span class="receipt-amount" id="rcTotal">฿0</span>
+      </div>
+
+      <div class="receipt-slip-wrap" id="rcSlipWrap" style="display:none">
+        <img id="rcSlip" alt="">
+        <div class="receipt-slip-cap">หลักฐานการโอน</div>
+      </div>
+
+      <div class="receipt-footer">
+        ขอบคุณค่ะ / Thank you<br>
+        <span class="text-mono" id="rcGenerated"></span>
+      </div>
+    </div>
+    <div class="modal-f">
+      <button class="btn btn-s flex-1" onclick="closeModal('receiptModal')">ปิด</button>
+      <button class="btn btn-p flex-1" onclick="downloadReceipt()">บันทึก / Print</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="slipViewModal" style="z-index:9999">
   <div class="modal" style="max-width:600px">
-    <div class="modal-h"><h2>Document Viewer</h2><button onclick="closeModal('slipViewModal')" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:24px">&times;</button></div>
-    <div class="modal-b" style="padding:0;line-height:0"><img id="slipViewImg" style="width:100%"></div>
+    <div class="modal-h"><h2>Document Viewer</h2><button class="btn-ghost" onclick="closeModal('slipViewModal')">&times;</button></div>
+    <div class="modal-b" style="padding:0;line-height:0"><img id="slipViewImg" class="full"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="confirmModal" style="z-index:10000">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-h"><h2 id="confirmTitle">Confirm</h2><button class="btn-ghost" onclick="closeModal('confirmModal')">&times;</button></div>
+    <div class="modal-b"><p id="confirmBody" class="text-dim"></p></div>
+    <div class="modal-f"><button class="btn btn-s flex-1" id="confirmNo">Cancel</button><button class="btn btn-danger flex-1" id="confirmYes">Confirm</button></div>
   </div>
 </div>
 
@@ -275,6 +358,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="app.js?v=2"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
